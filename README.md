@@ -5,14 +5,9 @@ Admin Dashboard
 
 ![image](desc.PNG)
 
+![ScreenShot](/desc.PNG)
 
-    ![ScreenShot](/desc.PNG)
-
-
-
-
-    ![ScreenShot](https://github.com/Flystunna/PWC/blob/master/desc.PNG)
-
+![ScreenShot](https://github.com/Flystunna/PWC/blob/master/desc.PNG)
 
 
 <p>

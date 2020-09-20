@@ -1,0 +1,334 @@
+﻿
+@model IEnumerable<PWC.Models.Projects>
+
+@{
+    ViewData["Title"] = "Home";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+@section Styles{
+    <style>
+        .circle {
+            background-color: #ccc;
+            border-radius: 50%;
+            height: var(--avatar-size);
+            text-align: center;
+            width: calc(var(--avatar-size) / 2);
+        }
+
+        .initials {
+            font-size: calc(var(--avatar-size) / 2); /* 50% of parent */
+            line-height: 1;
+            position: relative;
+            top: calc(var(--avatar-size) / 4); /* 25% of parent */
+        }
+
+        li.borderless {
+            border-top: 0 none;
+            border: 0 none;
+        }
+
+        .topnav{
+            overflow: hidden;
+        }
+
+        .topnav a {
+            float:left;
+            display:block;
+            color:black;
+            text-align:center;
+            padding:14px 16px;
+            text-decoration: none;
+            font-size:17px;
+            border-bottom: 3px solid transparent;
+        }
+
+        .topnav a:hover{
+            border-bottom: 3px solid #4527a0
+        }
+        .topnav a.active{
+            border-bottom: 3px solid #4527a0;
+            font-weight:bold;
+        }
+
+    </style>
+}
+
+<div class="row">
+    <div class="col-lg-2">
+        <div class="card-body">
+            <img src="https://www.w3schools.com/howto/img_avatar2.png" height="50" width="50" style="border-color:#4527a0;border-style:solid" class="float-left rounded-circle">
+            <div class="message">
+                <br />
+                <h5 class="card-title"> &nbsp; Rachael, Y.</h5>
+                <h6 class="card-subtitle mb-2 text-muted">Senior Manager, BA</h6>
+                <br />
+                <ul class="list-group ">
+                    <li class="list-group-item borderless" style="color: #4527a0">
+                        <b>Performance</b>
+                    </li>
+                    <br />
+                    <li class="list-group-item borderless">
+                        <h6>Ongoing Projects</h6>
+
+                    </li>
+                    <br />
+                    <li class="list-group-item borderless">
+                        <h6> People Manager</h6>
+
+                    </li>
+                    <br />
+                    <li class="list-group-item borderless">
+                        <h6>Project History</h6>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <br /><br />
+        <h3>Dashboard</h3>
+        <div class="topnav">
+            <a href="" class="active">Current</a>
+            <a href="">Upcoming</a>
+            <a href="">Overdue</a>
+        </div><br />
+        <table class="table table-borderless" style=" border-collapse: separate !important;">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Unit</th>
+                    <th>Manager</th>
+                    <th>Staff Strength</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model)
+                {
+
+                    if (Model.Count() > 0)
+                    {
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div> <img class="circle" width="45" height="45" src="" avatar="@i.name" alt=""></div>&nbsp;
+                                    <div>
+                                        <strong>@i.name</strong>
+                                        <p><span class="text-muted">Due on @i.dueDate?.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"))</span></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-order="Jessica Brown">
+                                <strong>@i.unitSim</strong>
+                            </td>
+                            <td class="maw-320">
+                                <span>@i.manager</span>
+                            </td>
+                            <td class="maw-320">
+                                <span>@i.staff</span>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr><td>No Result Found </td></tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>
+    <div class="col-lg-4">
+        <br /><br />
+        <div class="row" style="justify-content:space-evenly">
+            <p>
+                <span> Search <i class="fa fa-search"></i></span>&nbsp;&nbsp;
+                <i class="fa fa-bell-o"></i>
+            </p>
+        </div>
+        <div class="card">
+            <div class="card-header" style="text-align:center">
+                Projects Worked on By Unit
+            </div>
+            <div class="card-body">
+                <div class="row justify-content-between">
+                    <div class="text-center" style="text-align:center">
+                        <span class="text-center"><b>@ViewBag.DC</b></span>
+                        <p style="font-size:small">Deep Consulting</p>
+                    </div>
+                    <div class="text-center" style="text-align:center">
+                        <span class="text-center"><b>@ViewBag.BA</b></span>
+                        <p style="font-size:small">Business Analytics</p>
+                    </div>
+                    <div class="text-center" style="text-align:center">
+                        <span class="text-center"><b>@ViewBag.AD</b></span>
+                        <p style="font-size:small">Artificial Data</p>
+                    </div>
+                </div>
+            </div>
+            <div id="chartContainer" style="height: 250px; width: 100%;"></div>
+        </div>
+        <br />
+        <div class="card">
+            <br />
+            <div id="chartContainer2" style="height: 180px; width: 100%;"></div>
+        </div>
+    </div>
+</div>
+<footer>
+    <i class="fa fa-sign-out"> </i> Logout
+</footer>
+
+@section Scripts{
+    @*<script src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>*@
+    <script src="~/js/jquery-1.11.1.min.js"></script>
+    <script src="~/js/jquery.canvasjs.min.js"></script>
+    <script src="~/js/jquery.min.js"></script>
+
+    @*<script src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>*@
+    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>*@
+
+    <script>
+        $(document).ready(function () {
+
+
+        });
+
+    </script>
+    <script type="text/javascript">
+
+        window.onload = function () {
+            CanvasJS.addColorSet("colorPink",
+                [//colorSet Array
+                    "#ce93d8"
+                ]);
+            CanvasJS.addColorSet("colorPie",
+                [//colorSet Array
+                    "#4527a0", "#7e57c2", "#8e24aa", "#ce93d8"
+                ]);
+
+
+            var chart = new CanvasJS.Chart("chartContainer", {
+                colorSet: "colorPink",
+                animationEnabled: true,
+                title: {
+                    text: "Projects due by week",
+                    fontFamily: "tahoma"
+                },
+                data: [
+                    {
+                        type: "column",
+                        dataPoints: @Html.Raw(ViewBag.DataPoints),
+                    }
+                ]
+            });
+            chart.render();
+
+            var chart2 = new CanvasJS.Chart("chartContainer2", {
+                colorSet: "colorPie",
+                animationEnabled: true,
+                title: {
+                    text: "Projects worked on by manager",
+                    fontFamily: "tahoma",
+                },
+                data: [{
+                    type: "doughnut",
+                    startAngle: 240,
+                    innerRadius: 30,
+                    yValueFormatString: "##0.00\"%\"",
+                    dataPoints: [
+                        { y: 20.00 },
+                        { y: 30.00 },
+                        { y: 20.00 },
+                        { y: 30.00 }
+                    ]
+                }]
+            });
+            chart2.render();
+        };
+    </script>
+    <script>
+        (function (w, d) {
+
+
+            function LetterAvatar(name, size) {
+
+                name = name || '';
+                size = size || 60;
+
+                var colours = [
+                    "#4527a0", "#4527a0"
+                ],
+
+                    nameSplit = String(name).toUpperCase().split(' '),
+                    initials, charIndex, canvas, context, dataURI;
+
+
+                if (nameSplit.length == 1) {
+                    initials = nameSplit[0] ? nameSplit[0].charAt(0) : '?';
+                } else {
+                    initials = nameSplit[0].charAt(0) + nameSplit[1].charAt(0);
+                }
+
+                if (w.devicePixelRatio) {
+                    size = (size * w.devicePixelRatio);
+                }
+
+                charIndex = (initials == '?' ? 72 : initials.charCodeAt(0)) - 64;
+                colourIndex = charIndex % 20;
+                canvas = d.createElement('canvas');
+                canvas.width = size;
+                canvas.height = size;
+                context = canvas.getContext("2d");
+
+                context.fillStyle = colours[0];
+                context.fillRect(0, 0, canvas.width, canvas.height);
+                context.font = Math.round(canvas.width / 3) + "px Arial";
+                context.textAlign = "center";
+                context.fillStyle = "#FFF";
+                context.fillText(initials, size / 2, size / 1.5);
+
+                dataURI = canvas.toDataURL();
+                canvas = null;
+
+                return dataURI;
+            }
+
+            LetterAvatar.transform = function () {
+
+                Array.prototype.forEach.call(d.querySelectorAll('img[avatar]'), function (img, name) {
+                    name = img.getAttribute('avatar');
+                    img.src = LetterAvatar(name, img.getAttribute('width'));
+                    img.removeAttribute('avatar');
+                    img.setAttribute('alt', name);
+                });
+            };
+
+
+            // AMD support
+            if (typeof define === 'function' && define.amd) {
+
+                define(function () { return LetterAvatar; });
+
+                // CommonJS and Node.js module support.
+            } else if (typeof exports !== 'undefined') {
+
+                // Support Node.js specific `module.exports` (which can be a function)
+                if (typeof module != 'undefined' && module.exports) {
+                    exports = module.exports = LetterAvatar;
+                }
+
+                // But always support CommonJS module 1.1.1 spec (`exports` cannot be a function)
+                exports.LetterAvatar = LetterAvatar;
+
+            } else {
+
+                window.LetterAvatar = LetterAvatar;
+
+                d.addEventListener('DOMContentLoaded', function (event) {
+                    LetterAvatar.transform();
+                });
+            }
+
+        })(window, document);
+    </script>
+}

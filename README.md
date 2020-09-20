@@ -7,3 +7,7 @@ Admin Dashboard
 
 
 ![ScreenShot](desc.jpg)
+
+<p>
+    <img src="https://drive.google.com/uc?export=view&id=1NKlwwuTcOLx9hOOmwtD5dNZk9byn4OFD" width="220" height="240" />
+</p>

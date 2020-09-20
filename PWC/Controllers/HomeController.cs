@@ -28,6 +28,24 @@ namespace PWC.Controllers
             var result = firstMon.AddDays(weekOfYear * 7);
             return result;
         }
+        public static string GetInitials(string name)
+        {
+            if(!string.IsNullOrEmpty(name) || !string.IsNullOrWhiteSpace(name))
+            {
+                string result;
+                var nameSplit = name.ToUpper().Split(' ');
+                if (nameSplit.Length == 1)
+                {
+                    result = nameSplit[0] != null ? nameSplit[0].Substring(0, 1) : "?";
+                }
+                else
+                {
+                    result = nameSplit[0].Substring(0, 1) + nameSplit[1].Substring(0, 1);
+                }
+                return result;
+            }
+            return "?";
+        }
         public static int weekProj(DateTime d) => CultureInfo.CurrentCulture.Calendar.GetWeekOfYear(d, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         public static int yearProj(DateTime d) => CultureInfo.CurrentCulture.Calendar.GetYear(d);
     }
@@ -47,11 +65,9 @@ namespace PWC.Controllers
             {
                 staff = "5",
                 startDate = new DateTime(2020, 6, 14),
-                unitSim = "DC",
-                dueDate = new DateTime(2020, 8, 17),
+                dueDate = new DateTime(2020, 9, 17),
                 manager = "Bada Irine",
                 name = "Dump Workshop",
-                avatar = "DW",
                 unit = "Deep Consulting",
             };
            
@@ -59,21 +75,17 @@ namespace PWC.Controllers
             {
                 staff = "3",
                 startDate = new DateTime(2020, 7, 22),
-                unitSim = "BA",
                 unit = "Business Analytics",
-                dueDate = new DateTime(2020, 8, 16),
+                dueDate = new DateTime(2020, 9, 16),
                 manager = "Rachael Yemisi",
-                avatar = "OF",
                 name = "Optimization Flow"
             };
             var Project3 = new Projects
             {
                 name = "Dump Workshop",
                 startDate = new DateTime(2020, 6, 14),
-                dueDate = new DateTime(2020, 9, 2),
-                unitSim = "DC",
+                dueDate = new DateTime(2020, 10, 2),
                 unit = "Deep Consulting",
-                avatar = "DW",
                 manager = "Bada Irine",
                 staff = "6",
 
@@ -83,10 +95,8 @@ namespace PWC.Controllers
 
                 name = "Fintech Analytics",
                 startDate = new DateTime(2020, 6, 4),
-                dueDate = new DateTime(2020, 8, 28),
-                unitSim = "BA",
+                dueDate = new DateTime(2020, 9, 28),
                 unit = "Business Analytics",
-                avatar = "FA",
                 manager = "Adele Olaluyi",
                 staff = "2",
             };
@@ -95,20 +105,16 @@ namespace PWC.Controllers
             {
                 name = "Project Audit",
                 startDate = new DateTime(2020, 7, 10),
-                dueDate = new DateTime(2020, 8, 22),
-                unitSim = "BA",
+                dueDate = new DateTime(2020, 9, 22),
                 unit = "Business Analytics",
                 manager = "Adele Olaluyi",
                 staff = "3",
-                avatar = "PA"
             };
             var Project5 = new Projects
             {
                 name = "BC Website",
-                avatar = "BW",
                 startDate = new DateTime(2020, 7, 7),
-                dueDate = new DateTime(2020, 9, 5),
-                unitSim = "DC",
+                dueDate = new DateTime(2020, 10, 5),
                 unit = "Deep Consulting",
                 manager = "Bada Irine",
                 staff = "1"
@@ -118,11 +124,9 @@ namespace PWC.Controllers
                 name = "Fraud Assessment",
                 staff = "4",
                 startDate = new DateTime(2020, 7, 14),
-                unitSim = "AD",
                 unit = "Artificial Data",
-                dueDate = new DateTime(2020, 8, 14),
+                dueDate = new DateTime(2020, 9, 14),
                 manager = "Demi Madaro",
-                avatar = "FA",
             };
 
 
@@ -134,25 +138,27 @@ namespace PWC.Controllers
             newProject.Add(Project7);
             newProject.Add(Project5);
 
-            var ist = newProject.Where(c => c.dueDate >= new DateTime(2020, 8, 14) && c.dueDate <= new DateTime(2020, 8, 18)).Count();
-            var second = newProject.Where(c => c.dueDate >= new DateTime(2020, 8, 21) && c.dueDate <= new DateTime(2020, 8, 25)).Count();
-            var third = newProject.Where(c => c.dueDate >= new DateTime(2020, 8, 28) && c.dueDate <= new DateTime(2020, 9, 2)).Count();
-            var fourth = newProject.Where(c => c.dueDate >= new DateTime(2020, 9, 5) && c.dueDate <= new DateTime(2020, 9, 9)).Count();
+            var ist = newProject.Where(c => c.dueDate >= new DateTime(2020, 9, 14) && c.dueDate <= new DateTime(2020, 9, 18)).Count();
+            var second = newProject.Where(c => c.dueDate >= new DateTime(2020, 9, 21) && c.dueDate <= new DateTime(2020, 9, 25)).Count();
+            var third = newProject.Where(c => c.dueDate >= new DateTime(2020, 9, 28) && c.dueDate <= new DateTime(2020, 10, 2)).Count();
+            var fourth = newProject.Where(c => c.dueDate >= new DateTime(2020, 10, 5) && c.dueDate <= new DateTime(2020, 10, 9)).Count();
 
             List<PieChartRange> dataPoints = new List<PieChartRange>{
-                new PieChartRange(ist, "14/08-18/08"),
-                new PieChartRange(second, "21/08-25/08"),
-                new PieChartRange(third, "26/08-02/09"),
-                new PieChartRange(fourth, "05/09-09/09")
+                new PieChartRange(ist, "14/09-18/09"),
+                new PieChartRange(second, "21/09-25/09"),
+                new PieChartRange(third, "26/09-02/10"),
+                new PieChartRange(fourth, "05/10-09/10")
             };
 
           
             foreach(var item in newProject)
             {
-                var firstdayofweek = helpers.firstday(helpers.yearProj(item.dueDate.GetValueOrDefault()), helpers.weekProj(item.dueDate.GetValueOrDefault()));
+                var firstdayofweek = helpers.firstday(helpers.yearProj(item.dueDate.GetValueOrDefault()), helpers.weekProj(item.dueDate.GetValueOrDefault())).AddDays(1);
                 var lastdayOfWeek = helpers.firstday(helpers.yearProj(item.dueDate.GetValueOrDefault()), helpers.weekProj(item.dueDate.GetValueOrDefault())).AddDays(5);
-                item.weekInWords = firstdayofweek.ToString("dd-MM-yyyy") + " - " + lastdayOfWeek.ToString("dd-MM-yyyy");
-            }  
+                item.weekInWords = firstdayofweek.ToString("dddd MMM dd yyyy") + " - " + lastdayOfWeek.ToString("dddd MMM dd yyyy");
+                item.avatar = helpers.GetInitials(item.name);
+                item.unitSim = helpers.GetInitials(item.unit);
+            }
 
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
 
@@ -160,7 +166,7 @@ namespace PWC.Controllers
             ViewBag.DC = newProject.Where(c => c.unit == "Deep Consulting").Count();
             ViewBag.AD = newProject.Where(c => c.unit == "Artificial Data").Count();
 
-
+            //return View(group);
             return View(newProject.OrderBy(c => c.dueDate));
         }
 
@@ -177,3 +183,19 @@ namespace PWC.Controllers
         }
     }
 }
+
+
+
+
+//var group = newProject.GroupBy(item => item.weekInWords).Select(group => new GroupProjets
+//{ 
+//    key = group.Key, 
+//    Projects = group.ToList() 
+
+//}).ToList();
+//var groups = newProject.GroupBy(item => item.weekInWords).Select(group => new
+//{
+//    desc = group.Key,
+//    items = group.ToList()
+
+//}).ToList();

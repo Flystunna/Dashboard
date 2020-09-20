@@ -26,12 +26,16 @@ namespace PWC.Models
             this.y = y;
             this.label = label;
         }
-        //Explicitly setting the name to be used while serializing to JSON.
         [DataMember(Name = "y")]
         public Nullable<double> y = null;
         [DataMember(Name = "label")]
         public string label = null;
     }
-    
 
 }
+
+//public class GroupProjets
+//{
+//    public string key { get; set; }
+//    public List<Projects> Projects { get; set; }
+//}

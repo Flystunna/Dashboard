@@ -1,5 +1,5 @@
-﻿
-@model IEnumerable<PWC.Models.Projects>
+﻿@model IEnumerable<PWC.Models.Projects>
+
 
 @{
     ViewData["Title"] = "Home";
@@ -28,54 +28,52 @@
             border: 0 none;
         }
 
-        .topnav{
+        .topnav {
             overflow: hidden;
         }
 
-        .topnav a {
-            float:left;
-            display:block;
-            color:black;
-            text-align:center;
-            padding:14px 16px;
-            text-decoration: none;
-            font-size:17px;
-            border-bottom: 3px solid transparent;
-        }
+            .topnav a {
+                float: left;
+                display: block;
+                color: black;
+                text-align: center;
+                padding: 14px 16px;
+                text-decoration: none;
+                font-size: 17px;
+                border-bottom: 3px solid transparent;
+            }
 
-        .topnav a:hover{
-            border-bottom: 3px solid #4527a0
-        }
-        .topnav a.active{
-            border-bottom: 3px solid #4527a0;
-            font-weight:bold;
-        }
+                .topnav a:hover {
+                    border-bottom: 3px solid #4527a0
+                }
 
+                .topnav a.active {
+                    border-bottom: 3px solid #4527a0;
+                    font-weight: bold;
+                }
     </style>
 }
 
 <div class="row">
-    <div class="col-lg-2">
+    <div class="col-lg-3">
         <div class="card-body">
             <img src="https://www.w3schools.com/howto/img_avatar2.png" height="50" width="50" style="border-color:#4527a0;border-style:solid" class="float-left rounded-circle">
             <div class="message">
                 <br />
                 <h5 class="card-title"> &nbsp; Rachael, Y.</h5>
-                <h6 class="card-subtitle mb-2 text-muted">Senior Manager, BA</h6>
+                <h6 class="card-subtitle mb-2">Senior Manager, BA</h6>
                 <br />
-                <ul class="list-group ">
+                <ul class="list-group">
                     <li class="list-group-item borderless" style="color: #4527a0">
                         <b>Performance</b>
                     </li>
                     <br />
                     <li class="list-group-item borderless">
                         <h6>Ongoing Projects</h6>
-
                     </li>
                     <br />
                     <li class="list-group-item borderless">
                         <h6> People Manager</h6>
-
                     </li>
                     <br />
                     <li class="list-group-item borderless">
@@ -91,7 +89,7 @@
         <div class="topnav">
             <a href="" class="active">Current</a>
             <a href="">Upcoming</a>
-            <a href="">Overdue</a>
+            <a href="">Overdue!</a>
         </div><br />
         <table class="table table-borderless" style=" border-collapse: separate !important;">
             <thead>
@@ -103,31 +101,34 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var i in Model)
+                @foreach (var x in Model.GroupBy(c => c.weekInWords).Select(group => new { desc = group.Key, items = group.ToList() }).ToList())
                 {
-
                     if (Model.Count() > 0)
                     {
-                        <tr>
-                            <td>
-                                <div class="row">
-                                    <div> <img class="circle" width="45" height="45" src="" avatar="@i.name" alt=""></div>&nbsp;
-                                    <div>
-                                        <strong>@i.name</strong>
-                                        <p><span class="text-muted">Due on @i.dueDate?.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"))</span></p>
+                        <th class="text-muted">@x.desc</th>
+                        @foreach (var i in x.items)
+                        {
+                            <tr>
+                                <td>
+                                    <div class="row">
+                                        <div> <img class="circle" width="45" height="45" src="" avatar="@i.name" alt=""></div>&nbsp;
+                                        <div>
+                                            <strong>@i.name</strong>
+                                            <p><span class="text-muted">Due on @i.dueDate?.ToString("dddd MMM dd yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"))</span></p>
+                                        </div>
                                     </div>
-                                </div>
-                            </td>
-                            <td data-order="Jessica Brown">
-                                <strong>@i.unitSim</strong>
-                            </td>
-                            <td class="maw-320">
-                                <span>@i.manager</span>
-                            </td>
-                            <td class="maw-320">
-                                <span>@i.staff</span>
-                            </td>
-                        </tr>
+                                </td>
+                                <td data-order="Jessica Brown">
+                                    <strong>@i.unitSim</strong>
+                                </td>
+                                <td class="maw-320">
+                                    <span>@i.manager</span>
+                                </td>
+                                <td class="maw-320">
+                                    <span>@i.staff</span>
+                                </td>
+                            </tr>
+                        }
                     }
                     else
                     {
@@ -137,7 +138,8 @@
             </tbody>
         </table>
     </div>
-    <div class="col-lg-4">
+
+    <div class="col-lg-3">
         <br /><br />
         <div class="row" style="justify-content:space-evenly">
             <p>
@@ -197,18 +199,18 @@
     <script type="text/javascript">
 
         window.onload = function () {
-            CanvasJS.addColorSet("colorPink",
+            CanvasJS.addColorSet("colorChart",
                 [//colorSet Array
                     "#ce93d8"
                 ]);
             CanvasJS.addColorSet("colorPie",
                 [//colorSet Array
-                    "#4527a0", "#7e57c2", "#8e24aa", "#ce93d8"
+                    "#ce93d8", "#4527a0", "#7e57c2", "#8e24aa"
                 ]);
 
 
             var chart = new CanvasJS.Chart("chartContainer", {
-                colorSet: "colorPink",
+                colorSet: "colorChart",
                 animationEnabled: true,
                 title: {
                     text: "Projects due by week",
@@ -232,7 +234,7 @@
                 },
                 data: [{
                     type: "doughnut",
-                    startAngle: 240,
+                    startAngle: 180,
                     innerRadius: 30,
                     yValueFormatString: "##0.00\"%\"",
                     dataPoints: [
@@ -332,3 +334,55 @@
         })(window, document);
     </script>
 }
+@*<div class="col-lg-6">
+        <br /><br />
+        <h3>Dashboard</h3>
+        <div class="topnav">
+            <a href="" class="active">Current</a>
+            <a href="">Upcoming</a>
+            <a href="">Overdue</a>
+        </div><br />
+        <table class="table table-borderless" style=" border-collapse: separate !important;">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Unit</th>
+                    <th>Manager</th>
+                    <th>Staff Strength</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var i in Model)
+                {
+
+                    if (Model.Count() > 0)
+                    {
+                        <tr>
+                            <td>
+                                <div class="row">
+                                    <div> <img class="circle" width="45" height="45" src="" avatar="@i.name" alt=""></div>&nbsp;
+                                    <div>
+                                        <strong>@i.name</strong>
+                                        <p><span class="text-muted">Due on @i.dueDate?.ToString("dd MMMM yyyy", System.Globalization.CultureInfo.CreateSpecificCulture("en-US"))</span></p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td data-order="Jessica Brown">
+                                <strong>@i.unitSim</strong>
+                            </td>
+                            <td class="maw-320">
+                                <span>@i.manager</span>
+                            </td>
+                            <td class="maw-320">
+                                <span>@i.staff</span>
+                            </td>
+                        </tr>
+                    }
+                    else
+                    {
+                        <tr><td>No Result Found </td></tr>
+                    }
+                }
+            </tbody>
+        </table>
+    </div>*@

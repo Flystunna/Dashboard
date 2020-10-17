@@ -162,6 +162,8 @@ namespace PWC.Controllers
 
             ViewBag.DataPoints = JsonConvert.SerializeObject(dataPoints);
 
+
+
             ViewBag.BA = newProject.Where(c => c.unit == "Business Analytics").Count();
             ViewBag.DC = newProject.Where(c => c.unit == "Deep Consulting").Count();
             ViewBag.AD = newProject.Where(c => c.unit == "Artificial Data").Count();
